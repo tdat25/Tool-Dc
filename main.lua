@@ -1,43 +1,51 @@
 -- Hàm kiểm tra username và hạn sử dụng từ users.lua
 function checkUserAndHSD()
     -- Nhập Gmail (username)
-    local d = gg.prompt({"Nhập Gmail Của May:"}, nil, {"text"})
-    if d == nil or d[1] == "" then
-        gg.alert("> Kiem Tra Lại Gmail\nIB Vo Đạt. ")
+    local input = gg.prompt({"Nhập Gmail Của Máy:"}, nil, {"text"})
+    if input == nil or input[1] == nil or input[1]:gsub("%s+", "") == "" then
+        gg.alert("❌ Vui lòng nhập Gmail hợp lệ.\nLiên hệ Admin (Đạt) nếu gặp sự cố.")
         os.exit()
     end
-    local username = d[1]:lower()
+    local username = input[1]:lower():gsub("%s+", "") -- loại bỏ khoảng trắng và chuyển lowercase
 
     -- Tải danh sách người dùng từ GitHub
     local url = "https://raw.githubusercontent.com/tdat25/Tool-Dc/main/users.lua"
-    local luaData = gg.makeRequest(url).content
+    local response = gg.makeRequest(url)
+    local luaData = response and response.content
+
     if not luaData or luaData == "" then
-        gg.alert("❌ Không tải được danh sách tài khoản.")
+        gg.alert("❌ Không tải được danh sách tài khoản từ GitHub.")
         os.exit()
     end
 
-    -- Tải như table Lua
+    -- Parse dữ liệu Lua thành table
     local ok, userTable = pcall(load("return " .. luaData))
     if not ok or type(userTable) ~= "table" then
-            -- Debug: Hiển thị nội dung tải về
-    gg.alert("Nội dung tải từ users.lua: " .. luaData)
-        
+        gg.alert("❌ Dữ liệu tải về không hợp lệ.")
+        gg.alert("📄 Nội dung:\n" .. tostring(luaData))
         os.exit()
     end
 
-    -- Kiểm tra username và hạn sử dụng
+    -- Kiểm tra username có tồn tại không
     local expireDate = userTable[username]
     if not expireDate then
-        gg.alert("❌ Tài khoản [" .. username .. "] chưa được cấp quyền.")
-        os.exit()
-    end
-    local currentDate = os.date("%Y%m%d")
-    if tonumber(currentDate) > tonumber(expireDate) then
-        gg.alert("❌ Tài khoản đã hết hạn sử dụng.\nVui lòng liên hệ Admin.")
+        gg.alert("❌ Tài khoản [" .. username .. "] chưa được cấp quyền sử dụng.")
         os.exit()
     end
 
-    gg.toast("Xác thực thành công! Đang tải script...")
+    -- Kiểm tra hạn sử dụng
+    local currentDate = os.date("%Y%m%d")
+    if tonumber(currentDate) > tonumber(expireDate) then
+        gg.alert("❌ Tài khoản đã hết hạn sử dụng.\nVui lòng liên hệ Admin để gia hạn.")
+        os.exit()
+    end
+
+    -- Hiển thị thông báo thành công và hạn sử dụng
+    local function formatDate(dateStr)
+        return dateStr:sub(7,8) .. "/" .. dateStr:sub(5,6) .. "/" .. dateStr:sub(1,4)
+    end
+
+    gg.toast("✅ Xác thực thành công! HSD: " .. formatDate(expireDate))
 end
 
 -- Hàm tải và thực thi script tdatVer1.lua
