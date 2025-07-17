@@ -1,4 +1,4 @@
-function mainProgram()
+function main()
     local mainMenuChoice = gg.choice({
         "📦 MoveHabitat"
     }, nil, "📌 Choose a function:")
@@ -7,7 +7,7 @@ function mainProgram()
         MoveHabitat()
     end
 end
-mainProgram()
+main()
 function MoveHabitat()
 
             local MenuMove = {}
@@ -77,3 +77,4 @@ function MoveHabitat()
             gg.clearResults()
             end
             if MenuMove[7] then MenuIslandMode() end end end
+main()
