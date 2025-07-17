@@ -1,73 +1,67 @@
-```lua
-function checkUserAndHSD()
-    -- Nhập Gmail (username)
-    local input = gg.prompt({"Nhập Gmail            Của Màyy:"}, nil, {"text"})
-    if input == nil or input[1] == nil or input[1]:gsub("%s+", "") == "" then
-        gg.alert("❌ Vui lòng nhập Gmail hợp lệ.\nLiên hệ Admin (Đạt) nếu gặp sự cố.")
-        os.exit()
-    end
-    local username = input[1]:lower():gsub("%s+", "") -- loại bỏ khoảng trắng và chuyển lowercase
+-- 🛡️ Username
+local input = gg.prompt({"🔐 Nhập Gmail Của Bạn:"}, nil, {"text"})
+if not input then return end
+local username = input[1]:lower()
 
-    -- Tải danh sách người dùng từ GitHub
-    local url = "https://raw.githubusercontent.com/tdat25/Tool-Dc/main/users.lua"
-    local response = gg.makeRequest(url)
-    local luaData = response and response.content
-
-    if not luaData or luaData == "" then
-        gg.alert("❌ Không tải được danh sách tài khoản từ GitHub.")
-        os.exit()
-    end
-
-    -- Parse dữ liệu Lua thành table
-    local f = loadstring("return " .. luaData)
-    if not f then
-        gg.alert("❌ Không thể xử lý dữ liệu Lua từ máy chủ.")
-        os.exit()
-    end
-
-    local success, userTable = pcall(f)
-    if not success or type(userTable) ~= "table" then
-        gg.alert("❌ Dữ liệu không hợp lệ. Đảm bảo file users.lua có định dạng: return { username = \"YYYYMMDD\", ... }")
-        os.exit()
-    end
-
-    -- Kiểm tra username có tồn tại không
-    local expireDate = userTable[username]
-    if not expireDate then
-        gg.alert("❌ Tài khoản [" .. username .. "] chưa được cấp quyền sử dụng.")
-        os.exit()
-    end
-
-    -- Kiểm tra hạn sử dụng
-    local currentDate = os.date("%Y%m%d") -- 20250717 với ngày hiện tại
-    if tonumber(currentDate) > tonumber(expireDate) then
-        gg.alert("❌ Tài khoản đã hết hạn sử dụng.\nVui lòng liên hệ Admin để gia hạn.")
-        os.exit()
-    end
-
-    -- Hiển thị thông báo thành công và hạn sử dụng
-    local function formatDate(dateStr)
-        return dateStr:sub(7,8) .. "/" .. dateStr:sub(5,6) .. "/" .. dateStr:sub(1,4)
-    end
-
-    gg.toast("✅ Xác thực thành công! HSD: " .. formatDate(expireDate))
+-- 🌐 Load tên user
+local url = "https://raw.githubusercontent.com/tdat25/Tool-Dc/main/users.lua"
+local raw = gg.makeRequest(url).content
+if not raw or raw == "" then
+  gg.alert("❌ Không thể tải danh sách tài khoản.\n📶 Vui lòng kiểm tra kết nối mạng.")
+  os.exit()
 end
-```
--- Hàm tải và thực thi script tdatVer1.lua
-function loadScript()
-    local url = "https://raw.githubusercontent.com/tdat25/Tool-Dc/main/tdatVer1.lua"
-    local scriptContent = gg.makeRequest(url).content
-    if not scriptContent or scriptContent == "" then
-        gg.alert("Không tải được script. Kiểm tra mạng.")
-        os.exit()
-    end
-    local f = load(scriptContent)
-    if f then
-        pcall(f)
-    else
-        gg.alert("Script lỗi")
-    end
+
+-- 📄 Load Lua table data
+local success, userTable = pcall(load("return " .. raw))
+if not success or type(userTable) ~= "table" then
+  gg.alert("❌ Lỗi khi xử lý danh sách tài khoản.")
+  os.exit()
 end
-checkUserAndHSD()
--- Chạy hàm tải script
-loadScript()
+
+-- 🔍 Check username
+local expiryStr = userTable[username]
+if not expiryStr then
+  gg.alert("❌ Tài khoản [" .. username .. "] chưa được cấp quyền.")
+  os.exit()
+end
+
+-- 🧮 Ngày + hsd
+local expY, expM, expD = expiryStr:sub(1, 4), expiryStr:sub(5, 6), expiryStr:sub(7, 8)
+local expiryTime = os.time({year = tonumber(expY), month = tonumber(expM), day = tonumber(expD), hour = 0, min = 0, sec = 0})
+local now = os.date("*t")
+local currentTime = os.time(now)
+
+-- ⏳ HSD
+local remaining = expiryTime - currentTime
+if remaining <= 0 then
+  gg.alert("❌ Tài khoản đã hết hạn vào ngày: " ..
+    string.format("%02d/%02d/%04d", tonumber(expD), tonumber(expM), tonumber(expY)) ..
+    "\n🕒 Thời gian thiết bị: " .. os.date("%d/%m/%Y %H:%M:%S"))
+  os.exit()
+end
+
+-- 🔢 Breakdown D:H:M:S
+local days = tostring(math.floor(remaining / 86400))
+local hours = tostring(math.floor((remaining % 86400) / 3600))
+local mins = tostring(math.floor((remaining % 3600) / 60))
+local secs = tostring(math.floor(remaining % 60))
+
+-- ✅ Thành Công
+gg.alert("✅ Xác thực thành công cho tài khoản: [" .. username .. "]" ..
+  "\n⏳ Hạn sử dụng: " .. string.format("%02d/%02d/%04d", tonumber(expD), tonumber(expM), tonumber(expY)) ..
+  "\n⏰ Thời gian còn lại: " .. days .. " ngày, " .. hours .. " giờ, " .. mins .. " phút, " .. secs .. " giây" ..
+  "\n🕒 Thiết bị: " .. os.date("%d/%m/%Y %H:%M:%S"))
+
+-- 🚀 Load main script
+local scriptUrl = "https://raw.githubusercontent.com/tdat25/Tool-Dc/main/tdatVer1.lua"
+local L = gg.makeRequest(scriptUrl).content
+if not L or L == '' then
+  gg.alert("📡 SERVER: Không cấp quyền bật mạng mà đòi dùng à?")
+else
+  local f = load(L)
+  if f then
+    pcall(f)
+  else
+    gg.alert("💥 SERVER: Nội dung script không hợp lệ. ( Lỗi hoặc đang bảo trì/cập nhật)")
+  end
+end
