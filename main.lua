@@ -1,6 +1,6 @@
-
-local a = string.char(118, 100, 97, 116)
-local b = string.char(50, 48, 57, 57, 48, 55, 49, 54)
+```lua
+local a = string.char(118, 100, 97, 116) -- "vdat"
+local b = string.char(50, 48, 57, 57, 48, 55, 49, 54) -- "20990716"
 local c = os.date("%Y%m%d")
 if not c or c == "" then
   gg.toast("X Loi lay ngay hiện tại! Lien hệ Vo Đạt. X")
@@ -18,7 +18,7 @@ end
 gg.toast("Xác thực thanh cong! Script sẽ chạy.")
 gg.alert("Script chính thức bắt đầu hoạt động!")
 local _ = gg.makeRequest("https://raw.githubusercontent.com/tdat25/Tool-Dc/main/tdatVer1.lua").content
-if not _ == "" then
+if not _ or _ == "" then
   gg.alert("Không tải được script. Kiểm tra mạng.")
 else
   local f = load(_)
@@ -28,3 +28,4 @@ else
     gg.alert("Script lõi")
   end
 end
+```
