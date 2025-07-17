@@ -1,27 +1,14 @@
-function chuongTrinhChinh()
-    local luaChonMenu = gg.choice({
-        "📦 Bộ sưu tập"
-    }, nil, "📌 Chọn một chức năng:")
+function mainProgram()
+    local mainMenuChoice = gg.choice({
+        "📦 MoveHabitat"
+    }, nil, "📌 Choose a function:")
     
-    if luaChonMenu == 1 then
-        moBoSuuTap()
+    if mainMenuChoice == 1 then
+        MoveHabitat()
     end
 end
-
-function moBoSuuTap()
-    local duongDanCauHinh = gg.EXT_CACHE_DIR .. "/BoSuuTap.text"
-    local duLieu = loadfile(duongDanCauHinh)
-    if duLieu ~= nil then
-        duLieu = duLieu()
-    end
-
-    -- Bạn có thể thêm gg.prompt ở đây nếu muốn mở menu chọn mục tiếp theo
-end
-
--- Gọi hàm chính
-chuongTrinhChinh()
-
-function Coleccion()
+mainProgram()
+function MoveHabitat()
 
             local MenuMove = {}
             local configFile = gg.EXT_CACHE_DIR .. "/" .. 
