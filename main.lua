@@ -1,5 +1,5 @@
 -- 🛡️ Username
-local input = gg.prompt({"🔐 Nhập Gmail Của Bạn:"}, nil, {"text"})
+local input = gg.prompt({"🔐 Nhập Gmal Của Bạn:"}, nil, {"text"})
 if not input then return end
 local username = input[1]:lower()
 
@@ -11,8 +11,8 @@ if not raw or raw == "" then
   os.exit()
 end
 
--- 📄 Load Lua table data
-local success, userTable = pcall(load("return " .. raw))
+-- 📄 Load Lua table data (fix: no "return" prefix here)
+local success, userTable = pcall(load(raw))
 if not success or type(userTable) ~= "table" then
   gg.alert("❌ Lỗi khi xử lý danh sách tài khoản.")
   os.exit()
@@ -61,6 +61,11 @@ else
   local f = load(L)
   if f then
     pcall(f)
+  else
+    gg.alert("💥 SERVER: Nội dung script không hợp lệ. ( Lỗi hoặc đang bảo trì/cập nhật)")
+  end
+end
+
   else
     gg.alert("💥 SERVER: Nội dung script không hợp lệ. ( Lỗi hoặc đang bảo trì/cập nhật)")
   end
