@@ -1,7 +1,7 @@
 -- Hàm kiểm tra username và hạn sử dụng từ users.lua
 function checkUserAndHSD()
     -- Nhập Gmail (username)
-    local input = gg.prompt({"Nhập Gmail Của Máy:"}, nil, {"text"})
+    local input = gg.prompt({"Nhập Gmail Của Màyy:"}, nil, {"text"})
     if input == nil or input[1] == nil or input[1]:gsub("%s+", "") == "" then
         gg.alert("❌ Vui lòng nhập Gmail hợp lệ.\nLiên hệ Admin (Đạt) nếu gặp sự cố.")
         os.exit()
@@ -19,20 +19,17 @@ function checkUserAndHSD()
     end
 
     -- Parse dữ liệu Lua thành table
-local ok, userTableOrError = pcall(load("return " .. luaData))
-if not ok then
-    gg.alert("❌ Lỗi load dữ liệu Lua:\n" .. tostring(userTableOrError))
-    gg.alert("📄 Nội dung tải về:\n" .. tostring(luaData))
+local f = loadstring("return " .. luaData)
+if not f then
+    gg.alert("❌ Không thể xử lý dữ liệu Lua từ máy chủ.")
     os.exit()
 end
 
-if type(userTableOrError) ~= "table" then
-    gg.alert("❌ Dữ liệu không phải table hợp lệ.")
+local success, userTable = pcall(f)
+if not success or type(userTable) ~= "table" then
+    gg.alert("❌ Dữ liệu không hợp lệ.")
     os.exit()
 end
-
-local userTable = userTableOrError
-
 
     -- Kiểm tra username có tồn tại không
     local expireDate = userTable[username]
