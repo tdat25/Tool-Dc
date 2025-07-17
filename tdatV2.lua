@@ -1,14 +1,9 @@
--- Script mở menu chọn move trong Game Guardian
--- Người viết: ChatGPT hỗ trợ theo yêu cầu
-
 function MoveHabitat()
     local configFile = gg.EXT_CACHE_DIR .. "/Move.text"
-
     local savedData = loadfile(configFile)
     if savedData ~= nil then
         savedData = savedData()
     end
-
     local menuMove = gg.prompt({
         '🌎 1x1 to all',
         '🌎 2x2 to all',
@@ -18,12 +13,8 @@ function MoveHabitat()
         '🌎 6x6 to all',
         '❌ Back to main menu'
     }, savedData, {'checkbox','checkbox','checkbox','checkbox','checkbox','checkbox','checkbox'})
-
     if menuMove == nil then return end
-
     gg.saveVariable(menuMove, configFile)
-
-    -- Mỗi lựa chọn tương ứng với một mã vùng
     local values = {
         [1] = "1065353216",
         [2] = "1073741824",
@@ -32,7 +23,6 @@ function MoveHabitat()
         [5] = "1084227584",
         [6] = "1086324736"
     }
-
     for i = 1, 6 do
         if menuMove[i] then
             gg.setRanges(gg.REGION_C_ALLOC)
@@ -48,21 +38,16 @@ function MoveHabitat()
             end
         end
     end
-
     if menuMove[7] then
         mainMenu()
     end
 end
-
 function mainMenu()
     local choice = gg.choice({
         "📦 MoveHabitat"
     }, nil, "📌 Choose a function:")
-
     if choice == 1 then
         MoveHabitat()
     end
 end
-
--- Auto run
 mainMenu()
