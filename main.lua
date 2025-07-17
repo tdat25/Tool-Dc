@@ -1,5 +1,5 @@
 -- 🛡️ Username
-local input = gg.prompt({"🔐 Nhập Gmal Của Bạn:"}, nil, {"text"})
+local input = gg.prompt({"🔐 Nhập Gmail Của Bạn:"}, nil, {"text"})
 if not input then return end
 local username = input[1]:lower()
 
@@ -61,11 +61,6 @@ else
   local f = load(L)
   if f then
     pcall(f)
-  else
-    gg.alert("💥 SERVER: Nội dung script không hợp lệ. ( Lỗi hoặc đang bảo trì/cập nhật)")
-  end
-end
-
   else
     gg.alert("💥 SERVER: Nội dung script không hợp lệ. ( Lỗi hoặc đang bảo trì/cập nhật)")
   end
