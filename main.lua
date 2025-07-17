@@ -53,6 +53,6 @@ function loadScript()
         gg.alert("Script lỗi")
     end
 end
-
+checkUserAndHSD()
 -- Chạy hàm tải script
 loadScript()
