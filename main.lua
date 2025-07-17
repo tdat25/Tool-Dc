@@ -1,18 +1,5 @@
 ```lua
 function main()
-    -- Kiểm tra ngày hiện tại và hạn sử dụng cố định
-    local a = string.char(118, 100, 97, 116) -- "vdat"
-    local b = string.char(50, 48, 57, 57, 48, 55, 49, 54) -- "20990716"
-    local c = os.date("%Y%m%d")
-    if not c or c == "" then
-        gg.toast("X Loi lay ngay hiện tại! Lien hệ Vo Đạt. X")
-        os.exit()
-    end
-    if tonumber(c) > tonumber(b) then
-        gg.alert("X Script da hết hạn! \nIB Vo Đạt. ")
-        os.exit()
-    end
-
     -- Nhập Gmail (username)
     local d = gg.prompt({"Nhập Gmail Của May:"}, nil, {"text"})
     if d == nil or d[1] == "" then
@@ -36,12 +23,14 @@ function main()
         os.exit()
     end
 
+    -- Kiểm tra username và hạn sử dụng từ users.lua
     local expireDate = userTable[username]
     if not expireDate then
         gg.alert("❌ Tài khoản [" .. username .. "] chưa được cấp quyền.")
         os.exit()
     end
-    if tonumber(c) > tonumber(expireDate) then
+    local currentDate = os.date("%Y%m%d")
+    if tonumber(currentDate) > tonumber(expireDate) then
         gg.alert("❌ Tài khoản đã hết hạn sử dụng.\nVui lòng liên hệ Admin.")
         os.exit()
     end
@@ -51,7 +40,7 @@ function main()
     gg.alert("Script chính thức bắt đầu hoạt động!")
     local scriptURL = "https://raw.githubusercontent.com/tdat25/Tool-Dc/main/tdatVer1.lua"
     local scriptContent = gg.makeRequest(scriptURL).content
-    if scriptContent == "" then
+    if not scriptContent or scriptContent == "" then
         gg.alert("Không tải được script. Kiểm tra mạng.")
     else
         local f = load(scriptContent)
