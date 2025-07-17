@@ -7,7 +7,6 @@ function main()
         MoveHabitat()
     end
 end
-main()
 function MoveHabitat()
 
             local MenuMove = {}
