@@ -1,9 +1,25 @@
-function principal()
-    menuPrincipal = gg.choice({
-        idiomas[idioma].coleccion,
-    },
-    if menuPrincipal == 1 then Coleccion() end
+function chuongTrinhChinh()
+    local luaChonMenu = gg.choice({
+        "📦 Bộ sưu tập"
+    }, nil, "📌 Chọn một chức năng:")
+    
+    if luaChonMenu == 1 then
+        moBoSuuTap()
+    end
 end
+
+function moBoSuuTap()
+    local duongDanCauHinh = gg.EXT_CACHE_DIR .. "/BoSuuTap.text"
+    local duLieu = loadfile(duongDanCauHinh)
+    if duLieu ~= nil then
+        duLieu = duLieu()
+    end
+
+    -- Bạn có thể thêm gg.prompt ở đây nếu muốn mở menu chọn mục tiếp theo
+end
+
+-- Gọi hàm chính
+chuongTrinhChinh()
 
 function Coleccion()
 
