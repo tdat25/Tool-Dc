@@ -21,7 +21,7 @@ function checkUserAndHSD()
     if not ok or type(userTable) ~= "table" then
             -- Debug: Hiển thị nội dung tải về
     gg.alert("Nội dung tải từ users.lua: " .. luaData)
-        gg.alert("❌ Lỗi định dạng danh sách tài khoản.")
+        
         os.exit()
     end
 
