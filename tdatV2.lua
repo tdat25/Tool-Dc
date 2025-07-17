@@ -1,79 +1,68 @@
-function main()
-    local mainMenuChoice = gg.choice({
+-- Script mở menu chọn move trong Game Guardian
+-- Người viết: ChatGPT hỗ trợ theo yêu cầu
+
+function MoveHabitat()
+    local configFile = gg.EXT_CACHE_DIR .. "/Move.text"
+
+    local savedData = loadfile(configFile)
+    if savedData ~= nil then
+        savedData = savedData()
+    end
+
+    local menuMove = gg.prompt({
+        '🌎 1x1 to all',
+        '🌎 2x2 to all',
+        '🌎 3x3 to all',
+        '🌎 4x4 to all',
+        '🌎 5x5 to all',
+        '🌎 6x6 to all',
+        '❌ Back to main menu'
+    }, savedData, {'checkbox','checkbox','checkbox','checkbox','checkbox','checkbox','checkbox'})
+
+    if menuMove == nil then return end
+
+    gg.saveVariable(menuMove, configFile)
+
+    -- Mỗi lựa chọn tương ứng với một mã vùng
+    local values = {
+        [1] = "1065353216",
+        [2] = "1073741824",
+        [3] = "1077936128",
+        [4] = "1082130432",
+        [5] = "1084227584",
+        [6] = "1086324736"
+    }
+
+    for i = 1, 6 do
+        if menuMove[i] then
+            gg.setRanges(gg.REGION_C_ALLOC)
+            gg.searchNumber("-300~300F;"..values[i]..";"..values[i].."::9", gg.TYPE_DWORD)
+            gg.refineNumber(values[i], gg.TYPE_DWORD)
+            local results = gg.getResults(5000)
+            if #results > 0 then
+                gg.editAll("0", gg.TYPE_DWORD)
+                gg.clearResults()
+                gg.toast("✅ Moved "..i.."x"..i)
+            else
+                gg.toast("⚠️ Không tìm thấy vùng "..i.."x"..i)
+            end
+        end
+    end
+
+    if menuMove[7] then
+        mainMenu()
+    end
+end
+
+function mainMenu()
+    local choice = gg.choice({
         "📦 MoveHabitat"
     }, nil, "📌 Choose a function:")
-    
-    if mainMenuChoice == 1 then
+
+    if choice == 1 then
         MoveHabitat()
     end
 end
-function MoveHabitat()
 
-            local MenuMove = {}
-            local configFile = gg.EXT_CACHE_DIR .. "/" .. 
-            gg.getFile():match("") .. "Move.text"
-            local data = loadfile(configFile)
-            if data ~= nil then
-              data = data()
-            end
-            MenuMove = gg.prompt({
-            '🌎1x1 to all🌎 ',
-            '🌎2x2 to all🌎 ',
-            '🌎3x3 to all🌎 ',
-            '🌎4x4 to all🌎 ',
-            '🌎5x5 to all🌎 ',
-            '🌎6x6 to all🌎 ',
-            '❌Get back menu❌'},data,{'checkbox','checkbox','checkbox','checkbox','checkbox','checkbox','checkbox'})
-            if MenuMove ==nil then
-            else
-            gg.saveVariable(MenuMove, configFile)
-            if MenuMove[1] then
-            gg.setRanges(gg.REGION_C_ALLOC)
-            gg.searchNumber("-300~300F;1 065 353 216;1 065 353 216;2~1000;10~10000::17", gg.TYPE_DWORD, false, gg.SIGN_EQUAL, 0, -1)
-            gg.refineNumber("1 065 353 216", gg.TYPE_DWORD, false, gg.SIGN_EQUAL, 0, -1)
-            gg.getResults(5000)
-            gg.editAll("0", gg.TYPE_DWORD)
-            gg.clearResults()
-            end
-            if MenuMove[2] then
-            gg.setRanges(gg.REGION_C_ALLOC)
-            gg.searchNumber("-300~300F;1 073 741 824;1 073 741 824::9", gg.TYPE_DWORD, false, gg.SIGN_EQUAL, 0, -1)
-            gg.refineNumber("1 073 741 824", gg.TYPE_DWORD, false, gg.SIGN_EQUAL, 0, -1)
-            gg.getResults(5000)
-            gg.editAll("0", gg.TYPE_DWORD)
-            gg.clearResults()
-            end
-            if MenuMove[3] then
-            gg.setRanges(gg.REGION_C_ALLOC)
-            gg.searchNumber("-300~300F;1 077 936 128;1 077 936 128::9", gg.TYPE_DWORD, false, gg.SIGN_EQUAL, 0, -1)
-            gg.refineNumber("1 077 936 128", gg.TYPE_DWORD, false, gg.SIGN_EQUAL, 0, -1)
-            gg.getResults(5000)
-            gg.editAll("0", gg.TYPE_DWORD)
-            gg.clearResults()
-            end
-            if MenuMove[4] then
-            gg.setRanges(gg.REGION_C_ALLOC)
-            gg.searchNumber("-300~300F;1 082 130 432;1 082 130 432::9", gg.TYPE_DWORD, false, gg.SIGN_EQUAL, 0, -1)
-            gg.refineNumber("1 082 130 432", gg.TYPE_DWORD, false, gg.SIGN_EQUAL, 0, -1)
-            gg.getResults(5000)
-            gg.editAll("0", gg.TYPE_DWORD)
-            gg.clearResults()
-            end
-            if MenuMove[5] then
-            gg.setRanges(gg.REGION_C_ALLOC)
-            gg.searchNumber("-300~300F;1 084 227 584;1 084 227 584::9", gg.TYPE_DWORD, false, gg.SIGN_EQUAL, 0, -1)
-            gg.refineNumber("1 084 227 584", gg.TYPE_DWORD, false, gg.SIGN_EQUAL, 0, -1)
-            gg.getResults(5000)
-            gg.editAll("0", gg.TYPE_DWORD)
-            gg.clearResults()
-            end
-            if MenuMove[6] then
-            gg.setRanges(gg.REGION_C_ALLOC)
-            gg.searchNumber("-300~300F;1 086 324 736;1 086 324 736::9", gg.TYPE_DWORD, false, gg.SIGN_EQUAL, 0, -1)
-            gg.refineNumber("1 086 324 736", gg.TYPE_DWORD, false, gg.SIGN_EQUAL, 0, -1)
-            gg.getResults(5000)
-            gg.editAll("0", gg.TYPE_DWORD)
-            gg.clearResults()
-            end
-            if MenuMove[7] then MenuIslandMode() end end end
-main()
+-- Auto run
+mainMenu()
