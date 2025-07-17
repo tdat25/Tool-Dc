@@ -1,3 +1,4 @@
+```lua
 -- Hàm kiểm tra username và hạn sử dụng từ users.lua
 function checkUserAndHSD()
     -- Nhập Gmail (username)
@@ -16,11 +17,18 @@ function checkUserAndHSD()
         os.exit()
     end
 
-    -- Tải như table Lua
-    local ok, userTable = pcall(load("return " .. luaData))
+    -- Debug: Hiển thị nội dung tải về
+    gg.alert("Nội dung tải từ users.lua: " .. luaData)
+
+    -- Tải như table Lua, thử load trực tiếp trước
+    local ok, userTable = pcall(load(luaData))
     if not ok or type(userTable) ~= "table" then
-        gg.alert("❌ Lỗi định dạng danh sách tài khoản.")
-        os.exit()
+        -- Nếu thất bại, thử thêm "return"
+        ok, userTable = pcall(load("return " .. luaData))
+        if not ok or type(userTable) ~= "table" then
+            gg.alert("❌ Lỗi định dạng danh sách tài khoản. Đảm bảo file users.lua khớp với: return { vdat = \"20191231\", dragon123 = \"20250801\", admin_test = \"20990101\" }")
+            os.exit()
+        end
     end
 
     -- Kiểm tra username và hạn sử dụng
@@ -29,7 +37,7 @@ function checkUserAndHSD()
         gg.alert("❌ Tài khoản [" .. username .. "] chưa được cấp quyền.")
         os.exit()
     end
-    local currentDate = os.date("%Y%m%d")
+    local currentDate = os.date("%Y%m%d") -- 20250717 với ngày hiện tại
     if tonumber(currentDate) > tonumber(expireDate) then
         gg.alert("❌ Tài khoản đã hết hạn sử dụng.\nVui lòng liên hệ Admin.")
         os.exit()
@@ -53,6 +61,8 @@ function loadScript()
         gg.alert("Script lỗi")
     end
 end
+
 checkUserAndHSD()
 -- Chạy hàm tải script
 loadScript()
+```
