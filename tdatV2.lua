@@ -25,10 +25,12 @@ end
 
 function mainMenu()
     local choice = gg.choice({
-        "📦 MoveHabitat "
-    }, nil, "👑 Admin: Võ Đạt")
-    if choice == 1 then
-        gg.alert("👑 Admin: Võ Đạt")
+        "👑 Admin: VÕ ĐẠT",    
+        "────────────────────", 
+        "📦 MoveHabitat"
+    }, nil, "📌 Menu chức năng")
+    
+    if choice == 3 then
         MoveHabitatAll()
     end
 end
