@@ -1,6 +1,6 @@
 return {
   admin = "20050101",
-  ngttbao1427@gmail.com = "20991125"
+  ngttbao1427@gmail.com = "20991125",
   dz = "20990101"
 }
 
