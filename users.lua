@@ -7,7 +7,7 @@ return {
   zdmin = "20050101",
   cdmin = "20050101",
   bdmin = "20050101",
-  ngttbao1427@gmail.com = "20991125",
+  ngttbao1427 = "20991125",
   dz = "20990101"
 }
 
