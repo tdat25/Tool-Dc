@@ -19,7 +19,7 @@ end
 -- 🔍 Check username
 local expiryStr = userTable[username]
 if not expiryStr then
-  gg.alert("❌ Tài khoản [" .. username .. "] chưa được cấp quyền./n Liên hệ admin")
+  gg.alert("❌ Tài khoản [" .. username .. "] chưa được cấp quyền. Liên hệ admin")
   os.exit()
 end
 -- 🧮 Ngày + hsd
