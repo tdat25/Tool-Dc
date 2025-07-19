@@ -16,18 +16,19 @@ function MoveHabitatAll()
         if #results > 0 then
             gg.editAll("0", gg.TYPE_DWORD)
             gg.clearResults()
-            gg.toast("✅ Moved "..i.."x"..i)
+            gg.toast("✅ Dọn Nhà Được Rồi Đó")
         else
-            gg.toast("⚠️ Không tìm thấy vùng "..i.."x"..i)
+            gg.toast("⚠️ Game Fix rồi")
         end
     end
 end
 
 function mainMenu()
     local choice = gg.choice({
-        "📦 MoveHabitat All (1x1 → 6x6)"
+        "📦 MoveHabitat "
     }, nil, "📌 Chọn chức năng:")
     if choice == 1 then
+        gg.toast("👑 Admin: Võ Đạt")
         MoveHabitatAll()
     end
 end
