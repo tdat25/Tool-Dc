@@ -84,6 +84,7 @@ function principal()
         idiomas[idioma].rescate,
         idiomas[idioma].farmeo,
         idiomas[idioma].habilidades,
+        tìm code,
         idiomas[idioma].coleccion,
         idiomas[idioma].salir
     }, nil, idiomas[idioma].bienvenida) or gg.setVisible(false)
@@ -93,8 +94,9 @@ function principal()
     if menuPrincipal == 3 then rescateDragon() end
     if menuPrincipal == 4 then farmeoOrbes() end
     if menuPrincipal == 5 then cambiarHabilidades() end
-    if menuPrincipal == 6 then Coleccion() end
-    if menuPrincipal == 7 then os.exit(gg.setVisible(true)) end
+    if menuPrincipal == 6 then Code end
+    if menuPrincipal == 7 then Coleccion() end
+    if menuPrincipal == 8 then os.exit(gg.setVisible(true)) end
 end
 
 function Ocultar()
@@ -903,7 +905,15 @@ function Coleccion()
     gg.sleep(1000)
     os.exit(gg.setVisible(false))
 end
-
+    function Code()
+            gg.setRanges(gg.REGION_C_ALLOC)
+            gg.searchNumber("Q'tid_'", gg.TYPE_BYTE, false, gg.SIGN_EQUAL, 0, -1, 0)
+            gg.processResume()
+            revert = gg.getResults(200000)
+            gg.editAll("Q ''", gg.TYPE_BYTE)
+            gg.clearResults()
+            gg.alert('🟡Show all id item on game🟡')
+            end 
 while true do
     if gg.isVisible() then
         gg.setVisible(false)
