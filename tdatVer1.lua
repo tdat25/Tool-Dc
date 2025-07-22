@@ -894,7 +894,6 @@ function entrenarDragon()
 end
 
 function Coleccion()
-
 function Code()
             gg.setRanges(gg.REGION_C_ALLOC)
             gg.searchNumber("Q'tid_'", gg.TYPE_BYTE, false, gg.SIGN_EQUAL, 0, -1, 0)
@@ -904,6 +903,7 @@ function Code()
             gg.clearResults()
             gg.alert('🟡Show all id item on game🟡')
             end 
+
 while true do
     if gg.isVisible() then
         gg.setVisible(false)
