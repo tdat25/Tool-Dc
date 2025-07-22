@@ -4,7 +4,7 @@ if not input then return end
 local username = input[1]:lower()
 
 -- 🌐 Load tên user
-local url = "https://raw.githubusercontent.com/tdat25/Tool-Dc/main/users.lua"
+local url = "https://raw.githubusercontent.com/tdat25/Tool-Dc/main/usersV1.lua"
 local raw = gg.makeRequest(url).content
 if not raw or raw == "" then
   gg.alert("❌ Không thể tải danh sách tài khoản.\n📶 Vui lòng kiểm tra kết nối mạng.")
