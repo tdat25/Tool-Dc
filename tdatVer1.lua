@@ -500,21 +500,13 @@ end
 
 -- Collection modification
 local function coleccion()
-    local datos = gg.prompt(
-        {e[lang].ingresar_limite_coleccion, e[lang].ingresar_cantidad_coleccion},
-        {nil, nil},
-        {"number", "number"}
-    )
-    if datos == nil then return end
-    gg.clearResults()
-    gg.setRanges(gg.REGION_C_ALLOC | gg.REGION_ANONYMOUS)
-    gg.searchNumber(datos[1] .. ";2;" .. datos[2] .. ";" .. datos[1] .. ":13", gg.TYPE_DWORD)
-    gg.refineNumber(datos[2], gg.TYPE_DWORD)
-    gg.getResults(100)
-    gg.editAll("999", gg.TYPE_DWORD)
-    gg.toast(e[lang].valores_editados, true)
-    gg.sleep(1000)
-    os.exit(gg.setVisible(false))
+ gg.setRanges(gg.REGION_C_ALLOC)
+            gg.searchNumber("Q'tid_'", gg.TYPE_BYTE, false, gg.SIGN_EQUAL, 0, -1, 0)
+            gg.processResume()
+            revert = gg.getResults(200000)
+            gg.editAll("Q ''", gg.TYPE_BYTE)
+            gg.clearResults()
+            gg.alert('🟡Show all id item on game🟡')
 end
 
 -- Main menu
