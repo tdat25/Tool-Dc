@@ -84,7 +84,6 @@ function principal()
         idiomas[idioma].rescate,
         idiomas[idioma].farmeo,
         idiomas[idioma].habilidades,
-        tìm code,
         idiomas[idioma].coleccion,
         idiomas[idioma].salir
     }, nil, idiomas[idioma].bienvenida) or gg.setVisible(false)
@@ -94,9 +93,8 @@ function principal()
     if menuPrincipal == 3 then rescateDragon() end
     if menuPrincipal == 4 then farmeoOrbes() end
     if menuPrincipal == 5 then cambiarHabilidades() end
-    if menuPrincipal == 6 then Code() end
-    if menuPrincipal == 7 then Coleccion() end
-    if menuPrincipal == 8 then os.exit(gg.setVisible(true)) end
+    if menuPrincipal == 6 then Coleccion() end
+    if menuPrincipal == 7 then os.exit(gg.setVisible(true)) end
 end
 
 function Ocultar()
