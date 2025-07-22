@@ -1,13 +1,13 @@
 local idiomas = {
     ["vi"] = {
         bienvenida = "Anh Là Võ Đạt",
-        ocultar = "Ẩn GameGuardian ",
-        batalla = "Đấu trường",
-        rescate = "Cứu rồng",
-        farmeo = "Farm orbs",
-        habilidades = "Thay đổi kỹ năng",
-        coleccion = " Bộ sưu tập ",
-        salir = " Thoát ",
+        ocultar = "💤 Ẩn GameGuardian 💤",
+        batalla = "⚔️ Đấu trường ⚔️",
+        rescate = "🐉 Cứu rồng 🆘",
+        farmeo = "💰 Farm orbs 💎",
+        habilidades = "🔄 Thay đổi kỹ năng 🔄",
+        coleccion = "📜 Bộ sưu tập 🏆",
+        salir = "❌ Thoát 🚪",
         ingresar_id = "Nhập ID Rồng 1🔎",
         ingresar_nivel1 = "Nhập cấp độ Rồng 1🔎",
         ingresar_nivel2 = "Nhập cấp độ Rồng 2🔎",
@@ -93,7 +93,7 @@ function principal()
     if menuPrincipal == 3 then rescateDragon() end
     if menuPrincipal == 4 then farmeoOrbes() end
     if menuPrincipal == 5 then cambiarHabilidades() end
-    if menuPrincipal == 6 then Code() end
+    if menuPrincipal == 6 then Coleccion() end
     if menuPrincipal == 7 then os.exit(gg.setVisible(true)) end
 end
 
@@ -894,24 +894,16 @@ function entrenarDragon()
 end
 
 function Coleccion()
-    local datos = gg.prompt({idiomas[idioma].ingresar_cantidad_coleccion}, {nil}, {"number"})
-    if datos == nil then
-        return
-    end
-    gg.setValues({{address = 0xCC647E58, flags = gg.TYPE_DWORD, value = datos[1]}})
-    gg.toast(idiomas[idioma].valores_editados, true)
-    gg.sleep(1000)
-    os.exit(gg.setVisible(false))
-end
+
 function Code()
-    gg.setRanges(gg.REGION_C_ALLOC)
-    gg.searchNumber("Q'tid_'", gg.TYPE_BYTE, false, gg.SIGN_EQUAL, 0, -1, 0)
-    gg.processResume()
-    revert = gg.getResults(200000)
-    gg.editAll("Q ''", gg.TYPE_BYTE)
-    gg.clearResults()
-    gg.alert('🟡Show all id item on game🟡')
-end 
+            gg.setRanges(gg.REGION_C_ALLOC)
+            gg.searchNumber("Q'tid_'", gg.TYPE_BYTE, false, gg.SIGN_EQUAL, 0, -1, 0)
+            gg.processResume()
+            revert = gg.getResults(200000)
+            gg.editAll("Q ''", gg.TYPE_BYTE)
+            gg.clearResults()
+            gg.alert('🟡Show all id item on game🟡')
+            end 
 while true do
     if gg.isVisible() then
         gg.setVisible(false)
