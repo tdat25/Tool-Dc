@@ -94,7 +94,7 @@ function principal()
     if menuPrincipal == 3 then rescateDragon() end
     if menuPrincipal == 4 then farmeoOrbes() end
     if menuPrincipal == 5 then cambiarHabilidades() end
-    if menuPrincipal == 6 then Code end
+    if menuPrincipal == 6 then Code() end
     if menuPrincipal == 7 then Coleccion() end
     if menuPrincipal == 8 then os.exit(gg.setVisible(true)) end
 end
